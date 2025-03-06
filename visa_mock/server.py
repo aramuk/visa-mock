@@ -4,6 +4,7 @@ import click
 import fastapi
 from fastapi import UploadFile
 import openai
+import pypdf
 import uvicorn
 
 from visa_mock.constants import DEFAULT_IP, DEFAULT_PORT, MODEL_ID
@@ -23,29 +24,31 @@ def say_hello():
 @app.post("/evaluate")
 def evaluate(file: UploadFile) -> EvaluateResponse:
     """Evaluates a queried CV for O-1 visa eligibility."""
-    print(file.content_type)
     if file.content_type == "application/pdf":
-        file_content = file.file.read()
+        reader = pypdf.PdfReader(file.file)
+        file_content = "\n".join([page.extract_text() for page in reader.pages])
     elif file.content_type == "application/octet-stream":
         file_content = file.file.read().decode("utf-8")
     else:
-        raise fastapi.HTTPException(status_code=400, detail="File must be a PDF or a text file")
-
-    print(file_content)
-    print(type(file_content))
+        raise fastapi.HTTPException(
+            status_code=400, detail="File must be a PDF or a text file"
+        )
 
     messages = [
-            {
-                "role": "system",
-                "content": "You are a helpful assistant that evaluates CVs for O-1 visa eligibility.",
-            },
-            {"role": "user", "content": file_content},
-        ]
+        {
+            "role": "system",
+            "content": "You are a helpful assistant that evaluates CVs for O-1 visa eligibility.",
+        },
+        {"role": "user", "content": file_content},
+    ]
+
+    print(messages)
 
     response = oai.beta.chat.completions.parse(
         model=MODEL_ID,
         messages=messages,
         response_format=EvaluateResponse,
+        temperature=0.0,
     )
 
     return response.choices[0].message.parsed
