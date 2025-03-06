@@ -13,6 +13,7 @@ from visa_mock.constants import (
     DEFAULT_PORT,
     MODEL_ID,
     CORS_ORIGINS_WHITELIST,
+    PROMPT_FACT_EXTRACTION,
 )
 from visa_mock.models import EvaluateResponse
 
@@ -50,7 +51,7 @@ def evaluate(file: UploadFile) -> EvaluateResponse:
     messages = [
         {
             "role": "system",
-            "content": "You are a helpful assistant that evaluates CVs for O-1 visa eligibility.",
+            "content": PROMPT_FACT_EXTRACTION,
         },
         {"role": "user", "content": file_content},
     ]

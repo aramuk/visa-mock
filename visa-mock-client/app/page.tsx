@@ -1,7 +1,6 @@
 "use client";
 
 import React from 'react'
-import Dropzone from 'react-dropzone'
 
 import Image from "next/image";
 import { evaluateResume, EvaluationResponse } from "./api";
@@ -10,14 +9,12 @@ import { useState } from 'react';
 
 export default function EvaluationPage() {
     const [file, setFile] = useState<File | null>(null);
-    const [dragOver, setDragOver] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [evaluation, setEvaluation] = useState<EvaluationResponse | null>(null);
 
     const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
-        setDragOver(false);
         const droppedFile = e.dataTransfer.files[0];
         if (droppedFile) setFile(droppedFile);
     };
@@ -65,8 +62,6 @@ export default function EvaluationPage() {
                             <form onSubmit={handleEvaluateSubmit}>
                                 {error && <p className="text-red-500">{error}</p>}
                                 <div
-                                    onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-                                    onDragLeave={() => setDragOver(false)}
                                     onDrop={handleDrop}
                                 >
                                     <label htmlFor="resume-upload" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">

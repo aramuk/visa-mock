@@ -1,5 +1,3 @@
-import { FormEvent } from "react";
-
 const API_URL = "http://localhost";
 const API_PORT = "8072";
 export const ENDPOINT = `${API_URL}:${API_PORT}`;
