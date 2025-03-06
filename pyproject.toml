@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "visa-mock"
+version = "0.1.0"
+description = "Mock design for an application that might be able to assess Visa eligibility based on an inputed resume."
+authors = ["Aditesh Kumar <27091329+aramuk@users.noreply.github.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+uvicorn = {version = "0.34.0", extras = ["standard"]}
+fastapi = {version = "0.115.11", extras = ["standard"]}
+openai = "1.65.4"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "0.9.9"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
