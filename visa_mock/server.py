@@ -3,14 +3,22 @@ import os
 import click
 import fastapi
 from fastapi import UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 import openai
 import pypdf
 import uvicorn
 
-from visa_mock.constants import DEFAULT_IP, DEFAULT_PORT, MODEL_ID
+from visa_mock.constants import DEFAULT_IP, DEFAULT_PORT, MODEL_ID, CORS_ORIGINS_WHITELIST
 from visa_mock.models import EvaluateResponse
 
 app = fastapi.FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=CORS_ORIGINS_WHITELIST,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 oai = openai.OpenAI()
