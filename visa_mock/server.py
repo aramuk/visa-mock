@@ -8,7 +8,12 @@ import openai
 import pypdf
 import uvicorn
 
-from visa_mock.constants import DEFAULT_IP, DEFAULT_PORT, MODEL_ID, CORS_ORIGINS_WHITELIST
+from visa_mock.constants import (
+    DEFAULT_IP,
+    DEFAULT_PORT,
+    MODEL_ID,
+    CORS_ORIGINS_WHITELIST,
+)
 from visa_mock.models import EvaluateResponse
 
 app = fastapi.FastAPI()

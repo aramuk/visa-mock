@@ -4,10 +4,6 @@ from typing import List
 from pydantic import BaseModel
 
 
-class EvaluateRequest(BaseModel):
-    pass
-
-
 class O1QualificationRating(str, Enum):
     low = "low"
     medium = "medium"
@@ -34,7 +30,7 @@ class Achievement(BaseModel):
 
 class Rating(BaseModel):
     rating: O1QualificationRating
-    reason: str
+    reasoning: str
 
 
 class EvaluateResponse(BaseModel):

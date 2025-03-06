@@ -5,23 +5,24 @@ const API_PORT = "8072";
 export const ENDPOINT = `${API_URL}:${API_PORT}`;
 
 
-export async function evaluateResume(event: FormEvent<HTMLFormElement>) {
-    console.log(event.currentTarget);
-    event.preventDefault()
+export type EvaluationResponse = {
+    rating: {
+        rating: string;
+        reasoning: string;
+    };
+    achievements: [{
+        achievement: string;
+        criteria: string;
+        context: string;
+        reasoning: string;
+    }];
+}
 
-    const formData = new FormData(event.currentTarget)
-    console.log(formData);
-
+export async function evaluateResume(formData: FormData) {
     const response = await fetch(`${ENDPOINT}/evaluate`, {
         method: "POST",
-        body: formData.get("dropzone-file"),
-        headers: { 
-            "Content-Type": "multipart/form-data" 
-        }
+        body: formData,
     });
 
-    // Handle response if necessary
-    const data = await response.json()
-    console.log(data);
-    return data;
+    return response;
 }
